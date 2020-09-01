@@ -9,13 +9,13 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/go-oauth2/oauth2/v4/errors"
+	"github.com/go-oauth2/oauth2/v4/generates"
+	"github.com/go-oauth2/oauth2/v4/manage"
+	"github.com/go-oauth2/oauth2/v4/models"
+	"github.com/go-oauth2/oauth2/v4/server"
+	"github.com/go-oauth2/oauth2/v4/store"
 	"github.com/go-session/session"
-	"gopkg.in/oauth2.v3/errors"
-	"gopkg.in/oauth2.v3/generates"
-	"gopkg.in/oauth2.v3/manage"
-	"gopkg.in/oauth2.v3/models"
-	"gopkg.in/oauth2.v3/server"
-	"gopkg.in/oauth2.v3/store"
 )
 
 func main() {
@@ -26,7 +26,7 @@ func main() {
 	manager.MustTokenStorage(store.NewMemoryTokenStore())
 
 	// generate jwt access token
-	manager.MapAccessGenerate(generates.NewJWTAccessGenerate([]byte("00000000"), jwt.SigningMethodHS512))
+	manager.MapAccessGenerate(generates.NewJWTAccessGenerate("", []byte("00000000"), jwt.SigningMethodHS512))
 
 	clientStore := store.NewClientStore()
 	clientStore.Set("222222", &models.Client{
@@ -60,7 +60,7 @@ func main() {
 	http.HandleFunc("/auth", authHandler)
 
 	http.HandleFunc("/authorize", func(w http.ResponseWriter, r *http.Request) {
-		store, err := session.Start(nil, w, r)
+		store, err := session.Start(r.Context(), w, r)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -110,7 +110,7 @@ func main() {
 }
 
 func userAuthorizeHandler(w http.ResponseWriter, r *http.Request) (userID string, err error) {
-	store, err := session.Start(nil, w, r)
+	store, err := session.Start(r.Context(), w, r)
 	if err != nil {
 		return
 	}
@@ -136,7 +136,7 @@ func userAuthorizeHandler(w http.ResponseWriter, r *http.Request) (userID string
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	store, err := session.Start(nil, w, r)
+	store, err := session.Start(r.Context(), w, r)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

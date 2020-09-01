@@ -1,10 +1,11 @@
 package store
 
 import (
+	"context"
 	"errors"
 	"sync"
 
-	"gopkg.in/oauth2.v3"
+	"github.com/go-oauth2/oauth2/v4"
 )
 
 // NewClientStore create client store
@@ -21,7 +22,7 @@ type ClientStore struct {
 }
 
 // GetByID according to the ID for the client information
-func (cs *ClientStore) GetByID(id string) (oauth2.ClientInfo, error) {
+func (cs *ClientStore) GetByID(ctx context.Context, id string) (oauth2.ClientInfo, error) {
 	cs.RLock()
 	defer cs.RUnlock()
 

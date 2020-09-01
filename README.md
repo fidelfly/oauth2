@@ -31,7 +31,7 @@
 ### Download and install
 
 ``` bash
-go get -u -v gopkg.in/oauth2.v3/...
+go get -u -v github.com/go-oauth2/oauth2/v4/...
 ```
 
 ### Create file `server.go`
@@ -43,11 +43,11 @@ import (
 	"log"
 	"net/http"
 
-	"gopkg.in/oauth2.v3/errors"
-	"gopkg.in/oauth2.v3/manage"
-	"gopkg.in/oauth2.v3/models"
-	"gopkg.in/oauth2.v3/server"
-	"gopkg.in/oauth2.v3/store"
+	"github.com/go-oauth2/oauth2/v4/errors"
+	"github.com/go-oauth2/oauth2/v4/manage"
+	"github.com/go-oauth2/oauth2/v4/models"
+	"github.com/go-oauth2/oauth2/v4/server"
+	"github.com/go-oauth2/oauth2/v4/store"
 )
 
 func main() {
@@ -135,12 +135,12 @@ Simulation examples of authorization code model, please check [example](/example
 ```go
 
 import (
-	"gopkg.in/oauth2.v3/generates"
+	"github.com/go-oauth2/oauth2/v4/generates"
 	"github.com/dgrijalva/jwt-go"
 )
 
 // ...
-manager.MapAccessGenerate(generates.NewJWTAccessGenerate([]byte("00000000"), jwt.SigningMethodHS512))
+manager.MapAccessGenerate(generates.NewJWTAccessGenerate("", []byte("00000000"), jwt.SigningMethodHS512))
 
 // Parse and verify jwt access token
 token, err := jwt.ParseWithClaims(access, &generates.JWTAccessClaims{}, func(t *jwt.Token) (interface{}, error) {
@@ -172,6 +172,10 @@ if !ok || !token.Valid {
 * [GORM](https://github.com/techknowlogick/go-oauth2-gorm)
 * [Firestore](https://github.com/tslamic/go-oauth2-firestore)
 
+## Handy Utilities
+
+* [OAuth2 Proxy Logger (Debug utility that proxies interfaces and logs)](https://github.com/aubelsb2/oauth2-logger-proxy)
+
 ## MIT License
 
   Copyright (c) 2016 Lyric
@@ -180,9 +184,9 @@ if !ok || !token.Valid {
 [Build-Status-Image]: https://travis-ci.org/go-oauth2/oauth2.svg?branch=master
 [codecov-url]: https://codecov.io/gh/go-oauth2/oauth2
 [codecov-image]: https://codecov.io/gh/go-oauth2/oauth2/branch/master/graph/badge.svg
-[reportcard-url]: https://goreportcard.com/report/gopkg.in/oauth2.v3
-[reportcard-image]: https://goreportcard.com/badge/gopkg.in/oauth2.v3
-[godoc-url]: https://godoc.org/gopkg.in/oauth2.v3
-[godoc-image]: https://godoc.org/gopkg.in/oauth2.v3?status.svg
+[reportcard-url]: https://goreportcard.com/report/github.com/go-oauth2/oauth2/v4
+[reportcard-image]: https://goreportcard.com/badge/github.com/go-oauth2/oauth2/v4
+[godoc-url]: https://godoc.org/github.com/go-oauth2/oauth2/v4
+[godoc-image]: https://godoc.org/github.com/go-oauth2/oauth2/v4?status.svg
 [license-url]: http://opensource.org/licenses/MIT
 [license-image]: https://img.shields.io/npm/l/express.svg

@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"gopkg.in/oauth2.v3"
-	"gopkg.in/oauth2.v3/errors"
+	"github.com/go-oauth2/oauth2/v4"
+	"github.com/go-oauth2/oauth2/v4/errors"
 )
 
 type (
@@ -46,10 +46,10 @@ type (
 // ClientFormHandler get client data from form
 func ClientFormHandler(r *http.Request) (string, string, error) {
 	clientID := r.Form.Get("client_id")
-	clientSecret := r.Form.Get("client_secret")
-	if clientID == "" || clientSecret == "" {
+	if clientID == "" {
 		return "", "", errors.ErrInvalidClient
 	}
+	clientSecret := r.Form.Get("client_secret")
 	return clientID, clientSecret, nil
 }
 
